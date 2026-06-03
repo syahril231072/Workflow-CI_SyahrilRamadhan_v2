@@ -19,11 +19,7 @@ from sklearn.metrics import (
 # CONFIGURATION
 # ==========================================
 
-DATA_PATH = (
-    "preprocessing/"
-    "loan_approval_preprocessed.csv"
-)
-
+DATA_PATH = "preprocessing/loan_approval_preprocessed.csv"
 EXPERIMENT_NAME = (
     "Loan_Approval_Automation"
 )
@@ -35,7 +31,10 @@ EXPERIMENT_NAME = (
 print(
     "Loading preprocessed dataset..."
 )
+import os
 
+print("Current directory:", os.getcwd())
+print("Files:", os.listdir())
 df = pd.read_csv(
     DATA_PATH
 )
