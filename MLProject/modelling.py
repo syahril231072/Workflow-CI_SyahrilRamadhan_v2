@@ -19,7 +19,7 @@ from sklearn.metrics import (
 # CONFIGURATION
 # ==========================================
 
-DATA_PATH = "preprocessing/loan_approval_preprocessed.csv"
+DATA_PATH = "loan_approval_preprocessed.csv"
 EXPERIMENT_NAME = (
     "Loan_Approval_Automation"
 )
