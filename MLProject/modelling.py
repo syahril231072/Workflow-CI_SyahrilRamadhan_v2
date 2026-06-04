@@ -2,6 +2,7 @@
 # IMPORT LIBRARY
 # ==========================================
 
+import os
 import pandas as pd
 import mlflow
 import mlflow.sklearn
@@ -20,28 +21,19 @@ from sklearn.metrics import (
 # ==========================================
 
 DATA_PATH = "loan_approval_preprocessed.csv"
-EXPERIMENT_NAME = (
-    "Loan_Approval_Automation"
-)
 
 # ==========================================
 # LOAD PREPROCESSED DATASET
 # ==========================================
 
-print(
-    "Loading preprocessed dataset..."
-)
-import os
+print("Loading preprocessed dataset...")
 
 print("Current directory:", os.getcwd())
 print("Files:", os.listdir())
-df = pd.read_csv(
-    DATA_PATH
-)
 
-print(
-    f"Dataset shape: {df.shape}"
-)
+df = pd.read_csv(DATA_PATH)
+
+print(f"Dataset shape: {df.shape}")
 
 # ==========================================
 # FEATURE TARGET SPLIT
@@ -58,21 +50,27 @@ y = df["loan_status"]
 # TRAIN TEST SPLIT
 # ==========================================
 
-X_train, X_test, y_train, y_test = (
-    train_test_split(
-        X,
-        y,
-        test_size=0.2,
-        random_state=42,
-        stratify=y
-    )
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42,
+    stratify=y
 )
-# Example input for MLflow model signature
+
+# ==========================================
+# INPUT EXAMPLE FOR MODEL SIGNATURE
+# ==========================================
+
 input_example = X_train.iloc[:5]
+
 # ==========================================
 # MLFLOW CONFIGURATION
 # ==========================================
 
+mlflow.set_tracking_uri(
+    f"file://{os.path.abspath('mlruns')}"
+)
 
 mlflow.sklearn.autolog()
 
@@ -82,9 +80,7 @@ mlflow.sklearn.autolog()
 
 with mlflow.start_run():
 
-    print(
-        "Training Random Forest model..."
-    )
+    print("Training Random Forest model...")
 
     model = RandomForestClassifier(
         n_estimators=300,
@@ -98,27 +94,21 @@ with mlflow.start_run():
         y_train
     )
 
-    mlflow.sklearn.log_model(
-        sk_model=model,
-        artifact_path="model",
-        input_example=input_example
-    )
     # ======================================
     # EXPLICIT MODEL LOGGING
     # ======================================
 
     mlflow.sklearn.log_model(
         sk_model=model,
-        artifact_path="model"
+        artifact_path="model",
+        input_example=input_example
     )
 
     # ======================================
     # EVALUATION
     # ======================================
 
-    y_pred = model.predict(
-        X_test
-    )
+    y_pred = model.predict(X_test)
 
     accuracy = accuracy_score(
         y_test,
@@ -140,6 +130,29 @@ with mlflow.start_run():
         y_pred
     )
 
+    # ======================================
+    # LOG METRICS
+    # ======================================
+
+    mlflow.log_metric(
+        "accuracy",
+        accuracy
+    )
+
+    mlflow.log_metric(
+        "precision",
+        precision
+    )
+
+    mlflow.log_metric(
+        "recall",
+        recall
+    )
+
+    mlflow.log_metric(
+        "f1_score",
+        f1
+    )
 
     print("\n========== RESULT ==========")
 
@@ -159,10 +172,5 @@ with mlflow.start_run():
         f"F1 Score  : {f1:.4f}"
     )
 
-print(
-    "\nTraining completed successfully."
-)
-
-print(
-    "Artifacts have been logged automatically by MLflow Autolog."
-)
+print("\nTraining completed successfully.")
+print("Artifacts have been logged successfully.")
