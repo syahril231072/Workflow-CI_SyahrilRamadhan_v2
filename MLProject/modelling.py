@@ -67,18 +67,13 @@ X_train, X_test, y_train, y_test = (
         stratify=y
     )
 )
-
+# Example input for MLflow model signature
+input_example = X_train.iloc[:5]
 # ==========================================
 # MLFLOW CONFIGURATION
 # ==========================================
 
 
-
-mlflow.set_experiment(
-    EXPERIMENT_NAME
-)
-
-# WAJIB SESUAI REVIEWER
 mlflow.sklearn.autolog()
 
 # ==========================================
@@ -101,6 +96,12 @@ with mlflow.start_run():
     model.fit(
         X_train,
         y_train
+    )
+
+    mlflow.sklearn.log_model(
+        sk_model=model,
+        artifact_path="model",
+        input_example=input_example
     )
     # ======================================
     # EXPLICIT MODEL LOGGING
@@ -138,6 +139,7 @@ with mlflow.start_run():
         y_test,
         y_pred
     )
+
 
     print("\n========== RESULT ==========")
 

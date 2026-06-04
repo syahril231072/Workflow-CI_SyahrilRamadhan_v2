@@ -1,0 +1,37 @@
+artifact_path: /workspaces/Workflow-CI_SyahrilRamadhan_v2/MLProject/mlruns/0/models/m-1deb8cfee1a04183aab6730cc23a689e/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.13
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.9.0
+    skops_trusted_types: null
+is_signature_from_type_hint: false
+mlflow_version: 3.13.0
+model_id: m-1deb8cfee1a04183aab6730cc23a689e
+model_size_bytes: 5184392
+model_uuid: m-1deb8cfee1a04183aab6730cc23a689e
+prompts: null
+run_id: 093992ea34374fc7b88a63a498ed7fe4
+signature:
+  inputs: '[{"type": "long", "name": "no_of_dependents", "required": true}, {"type":
+    "long", "name": "income_annum", "required": true}, {"type": "long", "name": "loan_amount",
+    "required": true}, {"type": "long", "name": "loan_term", "required": true}, {"type":
+    "long", "name": "cibil_score", "required": true}, {"type": "long", "name": "residential_assets_value",
+    "required": true}, {"type": "long", "name": "commercial_assets_value", "required":
+    true}, {"type": "long", "name": "luxury_assets_value", "required": true}, {"type":
+    "long", "name": "bank_asset_value", "required": true}, {"type": "boolean", "name":
+    "education_Not Graduate", "required": true}, {"type": "boolean", "name": "self_employed_Yes",
+    "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2026-06-04 02:15:45.910673'
