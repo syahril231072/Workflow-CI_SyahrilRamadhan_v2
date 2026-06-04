@@ -69,9 +69,12 @@ input_example = X_train.iloc[:5]
 # ==========================================
 
 mlflow.set_tracking_uri(
-    f"file://{os.path.abspath('mlruns')}"
+    "sqlite:///mlflow.db"
 )
 
+mlflow.set_experiment(
+    "Loan_Approval_Automation"
+)
 mlflow.sklearn.autolog()
 
 # ==========================================
